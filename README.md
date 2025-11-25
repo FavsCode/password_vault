@@ -15,7 +15,7 @@ Users can create a master account, store encrypted passwords, and manage saved a
 1. Clone or download the repository:
 
 ```bash
-git clone <your-repo-url>
+git clone https://github.com/FavsCode/password_vault.git
 cd password_vault
 ```
 
