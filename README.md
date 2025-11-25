@@ -24,14 +24,12 @@ cd password_vault
 ```bash
 python -m venv venv
 ```
-    Windows:
-```bash
+Windows:
+
     venv\Scripts\activate
-```
-    Mac/Linux:
-```bash
+Mac/Linux:
+
     source venv/bin/activate
-```
 3. Install dependencies:
 ```bash
 pip install -r requirements.txt
