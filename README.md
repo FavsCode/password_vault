@@ -49,6 +49,7 @@ Actions include:
 - Deleting accounts
 
 ## Project Structure
+```bash
 password_vault/
 │
 ├── data/
@@ -66,6 +67,7 @@ password_vault/
 ├── requirements.txt
 ├── README.md
 └── .gitignore
+```
 
 ## Security Notes
 - The vault key and user database are intentionally ignored by Git.
