@@ -73,3 +73,10 @@ password_vault/
 - The vault key and user database are intentionally ignored by Git.
 - Never share or sync your vault.key.
 - This tool is for local use only and should not be considered a full enterprise-grade password manager.
+## Developer's Reminder
+- This isn't meant for anyone who isn't the creator of this project.
+- To run your own code, you have to run:
+```bash
+  cd password_vault
+  python main.py
+```
