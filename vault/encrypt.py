@@ -4,10 +4,16 @@ import os
 import hashlib
 from cryptography.fernet import Fernet
 
-os.makedirs("data", exist_ok=True)
-if not os.path.exists("data/vault.key"):
-  with open("data/vault.key", "wb") as f:
-      f.write(Fernet.generate_key())
+# Prevents errors running in the terminal
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+DATA_DIR = os.path.join(BASE_DIR, "..", "data")
+os.makedirs(DATA_DIR, exist_ok=True)
+
+key_path = os.path.join(DATA_DIR, "vault.key")
+
+if not os.path.exists(key_path):
+    with open(key_path, "wb") as f:
+        f.write(Fernet.generate_key())
 
 def encrypt(password):
   """A function that encrypts an un-decryptable password (A.K.A. A password no one knows. Not even us!)."""
