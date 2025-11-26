@@ -1,65 +1,58 @@
-"""encrypt.py - Handles encryption, decryption, and verification of the Password Vault's passwords."""
+"""encrypt.py - Handles encryption, decryption, and verification of passwords."""
 import json
 import os
 import hashlib
 from cryptography.fernet import Fernet
 
-# Prevents errors running in the terminal
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-DATA_DIR = os.path.join(BASE_DIR, "..", "data")
+# ---------- Correct Path Handling ----------
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))         # /vault
+DATA_DIR = os.path.join(BASE_DIR, "..", "data")               # /data folder
 os.makedirs(DATA_DIR, exist_ok=True)
 
-key_path = os.path.join(DATA_DIR, "vault.key")
+VAULT_KEY = os.path.join(DATA_DIR, "vault.key")
+USERS_FILE = os.path.join(DATA_DIR, "users.json")
 
-if not os.path.exists(key_path):
-    with open(key_path, "wb") as f:
+# Create key if missing
+if not os.path.exists(VAULT_KEY):
+    with open(VAULT_KEY, "wb") as f:
         f.write(Fernet.generate_key())
 
-def encrypt(password):
-  """A function that encrypts an un-decryptable password (A.K.A. A password no one knows. Not even us!)."""
-  # Generate random salt (store it too)
-  salt = os.urandom(16)
-  salt_hex = salt.hex()
 
-  # Combine password + salt before hashing
-  hashed = hashlib.sha256(salt + password.encode()).hexdigest()
-  return salt_hex, hashed
+# ---------- PASSWORD HASHING ----------
+def encrypt(password):
+    """Hash pass + salt (non-reversible, good for master auth)"""
+    salt = os.urandom(16)
+    salt_hex = salt.hex()
+    hashed = hashlib.sha256(salt + password.encode()).hexdigest()
+    return salt_hex, hashed
+
 
 def verify(username, input_pass):
-  """A function that compares entered credentials against saved ones."""
-  try:
-    with open("data/users.json", "r") as file:
-      users = json.load(file)
-      try:
-        # Find their info
-        salt_hex = users[username]["salt"]
-        stored_hash = users[username]["hashed_pass"]
-      except KeyError: # If the user doesn't exist, account doesn't
+    """Compare entered credentials against saved ones"""
+    if not os.path.exists(USERS_FILE):
+        return False  # no accounts exist
+
+    with open(USERS_FILE, "r") as file:
+        users = json.load(file)
+
+    if username not in users:
         return False
-  except FileNotFoundError: # If the file doesn't exist, the account can't either 
-    return False
 
-  # Check if their info resembles what they entered
-  salt = bytes.fromhex(salt_hex)
-  input_hash = hashlib.sha256(salt + input_pass.encode()).hexdigest() 
-  return input_hash == stored_hash
-  
+    salt = bytes.fromhex(users[username]["salt"])
+    stored_hash = users[username]["hashed_pass"]
+    input_hash = hashlib.sha256(salt + input_pass.encode()).hexdigest()
+
+    return input_hash == stored_hash
+
+
+# ---------- ENCRYPT/DECRYPT STORED PASSWORDS ----------
 def simple_encrypt(password):
-  """A function that uses a simple key to encrypt a password."""
-  # Load your previously saved key
-  with open("data/vault.key", "rb") as key_file:
-      key = key_file.read()
+    with open(VAULT_KEY, "rb") as key_file:
+        key = key_file.read()
+    return Fernet(key).encrypt(password.encode()).decode()
 
-  # Use the key to create a Fernet object
-  fernet = Fernet(key)
-  encrypted_pass = fernet.encrypt(password.encode()).decode() # JSON can't handle bytes, so it must turns into a string (decode)!
-  return encrypted_pass
 
 def simple_decrypt(encrypted_pass):
-  # Load your previously saved key
-  with open("data/vault.key", "rb") as key_file:
-      key = key_file.read()
-
-  fernet = Fernet(key)
-  decrypted_pass = fernet.decrypt(encrypted_pass.encode()).decode()
-  return decrypted_pass
+    with open(VAULT_KEY, "rb") as key_file:
+        key = key_file.read()
+    return Fernet(key).decrypt(encrypted_pass.encode()).decode()
