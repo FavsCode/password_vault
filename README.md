@@ -68,6 +68,7 @@ password_vault/
 │   ├── password.py        # Generates random secure passwords
 │   └── utils.py           # Shared helper utilities
 │
+├── cli.py
 ├── main.py                # Entry point for the application
 ├── requirements.txt
 ├── README.md
