@@ -5,3 +5,4 @@ data/users.json
 data/vault.key
 logs/
 .DS_Store   
+.vscode/
