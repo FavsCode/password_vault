@@ -17,20 +17,16 @@ if not os.path.exists(VAULT_KEY):
     with open(VAULT_KEY, "wb") as f:
         f.write(Fernet.generate_key())
 
-
 # ---------- PASSWORD HASHING ----------
 def encrypt(password):
-    """Hash pass + salt (non-reversible, good for master auth)"""
     salt = os.urandom(16)
     salt_hex = salt.hex()
     hashed = hashlib.sha256(salt + password.encode()).hexdigest()
     return salt_hex, hashed
 
-
 def verify(username, input_pass):
-    """Compare entered credentials against saved ones"""
     if not os.path.exists(USERS_FILE):
-        return False  # no accounts exist
+        return False
 
     with open(USERS_FILE, "r") as file:
         users = json.load(file)
@@ -41,16 +37,13 @@ def verify(username, input_pass):
     salt = bytes.fromhex(users[username]["salt"])
     stored_hash = users[username]["hashed_pass"]
     input_hash = hashlib.sha256(salt + input_pass.encode()).hexdigest()
-
     return input_hash == stored_hash
-
 
 # ---------- ENCRYPT/DECRYPT STORED PASSWORDS ----------
 def simple_encrypt(password):
     with open(VAULT_KEY, "rb") as key_file:
         key = key_file.read()
     return Fernet(key).encrypt(password.encode()).decode()
-
 
 def simple_decrypt(encrypted_pass):
     with open(VAULT_KEY, "rb") as key_file:

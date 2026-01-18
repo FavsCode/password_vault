@@ -10,6 +10,11 @@ Users can create a master account, store encrypted passwords, and manage saved a
 - Add, view, and delete stored accounts
 - JSON-based persistent storage
 - Modular project structure for readability and future upgrades
+- Automated tests (WIP): legacy code is being refactored to improve testability and coverage.
+
+## Limitations
+- Tests: heavy console output, partial test coverage
+- Encryption: implemented for learning purposes; not audited or intended for production use.
 
 ## Installation
 1. Clone or download the repository:
@@ -67,6 +72,17 @@ password_vault/
 ├── requirements.txt
 ├── README.md
 └── .gitignore
+```
+
+## Testing
+Tests are written using pytest.
+
+Due to early design decisions, some functions rely heavily on console I/O.
+These are being refactored gradually to separate logic from side effects.
+
+Run tests with:
+```bash
+pytest
 ```
 
 ## Security Notes
