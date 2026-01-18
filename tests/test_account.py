@@ -1,5 +1,4 @@
 """test_account.py - Tests for account.py functionalities."""
-from copy import Error
 import json
 import os
 from vault.account import view_accounts, add_account, delete_account, save_account, username_exists
