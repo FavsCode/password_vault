@@ -7,6 +7,8 @@
 A secure command-line password manager written in Python.
 Users can create a master account, store encrypted passwords, and manage saved accounts safely.
 
+**Status - Actively maintained.**
+
 ## Features
 - Master account system (first-time setup automatically creates master credentials)
 - SHA-256 hashing for master password verification
@@ -18,7 +20,7 @@ Users can create a master account, store encrypted passwords, and manage saved a
 
 ## Limitations
 - Tests: heavy console output, partial test coverage
-- Encryption: implemented for learning purposes; not audited or intended for production use.
+- Encryption: implemented for _learning purposes_; **not audited or intended for production use.**
 
 ## Installation
 1. Clone or download the repository:
@@ -62,18 +64,18 @@ Actions include:
 password_vault/
 │
 ├── data/
-│   ├── users.json         # Stores master account + saved accounts, created upon use
-│   └── vault.key          # Fernet encryption key, created upon use
+│   ├── users.json            # Stores master account + saved accounts, created upon use
+│   └── vault.key              # Fernet encryption key, created upon use
 │
 ├── vault/
 │   ├── __init__.py
-│   ├── account.py         # Add/view/delete password entries
-│   ├── encrypt.py         # Encryption + decryption helpers
-│   ├── password.py        # Generates random secure passwords
-│   └── utils.py           # Shared helper utilities
+│   ├── account.py          # Add/view/delete password entries
+│   ├── encrypt.py          # Encryption + decryption helpers
+│   ├── password.py      # Generates random secure passwords
+│   └── utils.py                # Shared helper utilities
 │
-├── cli.py
-├── main.py                # Entry point for the application
+├── cli.py                        # Terminal-based program execution
+├── main.py                   # Entry point for the application
 ├── requirements.txt
 ├── README.md
 └── .gitignore
