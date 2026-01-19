@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="assets/logo.jpg" alt="Password Vault Logo" width="600">
+</p>
+
 # Password Vault
 
 A secure command-line password manager written in Python.
