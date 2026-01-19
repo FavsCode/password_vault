@@ -24,18 +24,25 @@ def encrypt(password):
     hashed = hashlib.sha256(salt + password.encode()).hexdigest()
     return salt_hex, hashed
 
-def verify(username, input_pass):
-    if not os.path.exists(USERS_FILE):
-        return False
+def verify(input_pass, username = None, salt1 = None, stored_hash = None, testing = False):
+    if not testing:
+        if not os.path.exists(USERS_FILE):
+            return False
 
-    with open(USERS_FILE, "r") as file:
-        users = json.load(file)
+        with open(USERS_FILE, "r") as file:
+            users = json.load(file)
 
-    if username not in users:
-        return False
+        if username not in users:
+            return False
+        
+    if salt1 is  None:
+        salt = bytes.fromhex(users[username]["salt"])
+    else:
+        salt = bytes.fromhex(salt1)
 
-    salt = bytes.fromhex(users[username]["salt"])
-    stored_hash = users[username]["hashed_pass"]
+    if stored_hash is None:
+        stored_hash = users[username]["hashed_pass"]
+
     input_hash = hashlib.sha256(salt + input_pass.encode()).hexdigest()
     return input_hash == stored_hash
 

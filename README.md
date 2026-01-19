@@ -16,7 +16,7 @@ Users can create a master account, store encrypted passwords, and manage saved a
 - Add, view, and delete stored accounts
 - JSON-based persistent storage
 - Modular project structure for readability and future upgrades
-- Automated tests (WIP): legacy code is being refactored to improve testability and coverage.
+- Automated tests
 
 ## Limitations
 - Tests: heavy console output, partial test coverage

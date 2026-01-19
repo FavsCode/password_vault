@@ -53,7 +53,7 @@ def main():
   username = input("Enter your username: ")
   print("\nYour password won't show up for security.") # Italicize this or something later
   input_pass = getpass.getpass("Enter your master password to continue: ")
-  correct_pass = verify(username, input_pass)
+  correct_pass = verify(input_pass, username = username)
   divider()
   
   if not correct_pass:
