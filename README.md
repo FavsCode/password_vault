@@ -7,7 +7,7 @@
 A secure command-line password manager written in Python.
 Users can create a master account, store encrypted passwords, and manage saved accounts safely.
 
-**Status - Actively maintained.**
+**Status - Finished Project.**
 
 ## Features
 - Master account system (first-time setup automatically creates master credentials)
